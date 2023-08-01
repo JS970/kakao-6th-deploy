@@ -16,8 +16,7 @@ public class ProductRestController {
 
     private final ProductService productService;
 
-    // (기능1) 전체 상품 목록 조회 (페이징 9개씩)
-    // /products
+    /* 전체상품조회 Controller method */
     @GetMapping("/products")
     public ResponseEntity<?> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page) {
         List<ProductResponse.FindAllDTO> responseDTOs = productService.findAll(page);
@@ -25,20 +24,18 @@ public class ProductRestController {
         return ResponseEntity.ok(apiResult);
     }
 
-    // (기능2) 개별 상품 상세 조회
-    // /products/{id}
-    @GetMapping("/products/{id}")
+    /* 개별상품조회 Product, Option 개별쿼리 Controller method */
+    @GetMapping("products/{id}")
     public ResponseEntity<?> findById(@PathVariable int id) {
         ProductResponse.FindByIdDTO responseDTO = productService.findById(id);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
 
-    // (기능2) 개별 상품 상세 조회 v2
-    // /products/{id}/v2
+    /* 개별상품조회 한방쿼리 Controller method */
     @GetMapping("/products/{id}/v2")
     public ResponseEntity<?> findByIdv2(@PathVariable int id) {
-        ProductResponse.FindByIdDTOv2 responseDTO = productService.findByIdv2(id);
+        ProductResponse.FindByIdDTOv2 responseDTO = productService.findByIdDTOv2(id);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
