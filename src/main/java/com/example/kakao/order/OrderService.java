@@ -44,6 +44,7 @@ public class OrderService {
             itemRepository.save(item);
             itemList.add(item);
         }
+        cartRepository.deleteAllByUserId(sessionUser.getId()); // 주문 후 장바구니 비워주기
         // Respones DTO 반환
         return new OrderResponse.OrderInsertDTO(itemList);
     }
