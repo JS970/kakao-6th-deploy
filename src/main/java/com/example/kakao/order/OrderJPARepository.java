@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderJPARepository extends JpaRepository<Order, Integer> {
-    @Query("select i from Item i join fetch i.order where i.order.user.id = :orderNumber")
-    List<Item> findByOrderNumber(@Param("orderNumber") int orderNumber);
+    @Query("select i from Item i join fetch i.order where i.order.user.id = :userId")
+    List<Item> findByUserId(@Param("userId") int userId);
 }

@@ -1,6 +1,7 @@
 package com.example.kakao.order;
 
 import com.example.kakao._core.errors.exception.Exception400;
+import com.example.kakao._core.errors.exception.Exception404;
 import com.example.kakao.cart.Cart;
 import com.example.kakao.cart.CartJPARepository;
 import com.example.kakao.order.item.Item;
@@ -50,9 +51,10 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResponse.OrderCheckDTO orderCheck(int orderNumber, int userId) {
+    public OrderResponse.OrderCheckDTO orderCheck(int userParameter, int userId) {
         // Item 쿼리
-        List<Item> itemList = orderRepository.findByOrderNumber(orderNumber);
+        if(userParameter != userId) throw new Exception404("주문을 확인할 수 없습니다.");
+        List<Item> itemList = orderRepository.findByUserId(userId);
         if(itemList.isEmpty()) throw new Exception400("주문 목록이 없습니다.");
         // Response DTO 반환
         return new OrderResponse.OrderCheckDTO(itemList);
