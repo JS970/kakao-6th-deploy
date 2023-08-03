@@ -83,9 +83,11 @@ public class CartService {
 
     /* 장바구니 조회 Service Layer */
     @Transactional
-    public CartResponse.FindAllDTO findAll() {
+    public CartResponse.FindAllDTO findAll(int userId) {
         // cart 쿼리
-        List<Cart> cartList = cartRepository.findAll();
+        List<Cart> cartList = cartRepository.findAllByUserId(userId).orElseThrow(
+                () -> new Exception400("장바구니가 비어 있습니다.")
+        );
         // Response DTO 반환
         return new CartResponse.FindAllDTO(cartList);
     }
