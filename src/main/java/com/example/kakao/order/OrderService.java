@@ -41,18 +41,19 @@ public class OrderService {
                     .quantity(cart.getQuantity())
                     .price(cart.getPrice())
                     .build();
-            itemRepository.save(item);
             itemList.add(item);
+            itemRepository.save(item);
         }
-        cartRepository.deleteAllByUserId(sessionUser.getId()); // 주문 후 장바구니 비워주기
+        cartRepository.deleteAllByUserId(sessionUser.getId());
         // Respones DTO 반환
         return new OrderResponse.OrderInsertDTO(itemList);
     }
 
     @Transactional
-    public OrderResponse.OrderCheckDTO orderCheck(int orderNumber) {
+    public OrderResponse.OrderCheckDTO orderCheck(int orderNumber, int userId) {
         // Item 쿼리
         List<Item> itemList = orderRepository.findByOrderNumber(orderNumber);
+        if(itemList.isEmpty()) throw new Exception400("주문 목록이 없습니다.");
         // Response DTO 반환
         return new OrderResponse.OrderCheckDTO(itemList);
     }

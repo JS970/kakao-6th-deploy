@@ -27,8 +27,9 @@ public class OrderRestController {
 
     // (기능10) 주문 결과 확인 GET
     @GetMapping("/orders/{id}")
-    public ResponseEntity<?> findById(@PathVariable int id) {
-        OrderResponse.OrderCheckDTO responseDTO = orderService.orderCheck(id);
+    public ResponseEntity<?> findById(@PathVariable int id,
+                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
+        OrderResponse.OrderCheckDTO responseDTO = orderService.orderCheck(id, userDetails.getUser().getId());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
